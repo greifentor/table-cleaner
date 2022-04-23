@@ -1,0 +1,23 @@
+@startuml
+
+component service {
+
+	component TableCleanerScriptGenerator
+
+}
+
+component console {
+
+	component CleanScriptCreator
+
+	component DataModelToTableCleanerModelConverter
+	
+	component ScriptWriter
+	
+	CleanScriptCreator -DOWN-> DataModelToTableCleanerModelConverter
+	CleanScriptCreator -DOWN-> ScriptWriter
+	CleanScriptCreator -DOWN-> TableCleanerScriptGenerator
+
+}
+
+@enduml

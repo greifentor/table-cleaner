@@ -1,0 +1,14 @@
+@startuml
+
+actor User
+
+node TableCleaner
+
+node DataModel
+
+User --> TableCleaner :Console
+
+TableCleaner --> DataModel
+
+
+@enduml
