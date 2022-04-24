@@ -1,11 +1,11 @@
 @startuml
 
-CleanScriptCreator -> DataModelToTableCleanerModelConverter : convert(dataModel)
-CleanScriptCreator <-- DataModelToTableCleanerModelConverter : tableCleanerModel
+CleanScriptCreateCommand -> DataModelToTableCleanerModelConverter : convert(dataModel)
+CleanScriptCreateCommand <-- DataModelToTableCleanerModelConverter : tableCleanerModel
 
-CleanScriptCreator -> TableCleanerScriptGenerator : generateCleanScriptFor(tableCleanerModel)
-CleanScriptCreator <-- TableCleanerScriptGenerator : scriptModel
+CleanScriptCreateCommand -> TableCleanerScriptGenerator : generateCleanScriptFor(tableCleanerModel)
+CleanScriptCreateCommand <-- TableCleanerScriptGenerator : scriptModel
 
-CleanScriptCreator -> ScriptWriter : createScript(scriptModel)
+CleanScriptCreateCommand -> ScriptWriter : createScript(scriptModel)
 
 @enduml

@@ -14,9 +14,9 @@ component console {
 	
 	component ScriptWriter
 	
-	CleanScriptCreator -DOWN-> DataModelToTableCleanerModelConverter
-	CleanScriptCreator -DOWN-> ScriptWriter
-	CleanScriptCreator -DOWN-> TableCleanerScriptGenerator
+	CleanScriptCreateCommand -DOWN-> DataModelToTableCleanerModelConverter
+	CleanScriptCreateCommand -DOWN-> ScriptWriter
+	CleanScriptCreateCommand -DOWN-> TableCleanerScriptGenerator
 
 }
 
