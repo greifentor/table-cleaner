@@ -13,6 +13,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import de.ollie.tablecleaner.core.model.DeleteOperationModel;
 import de.ollie.tablecleaner.core.model.ScriptModel;
 import de.ollie.tablecleaner.core.model.SetNullOperationModel;
+import de.ollie.tablecleaner.core.model.TableCleanerConfiguration;
+import de.ollie.tablecleaner.core.service.ScriptWriter;
 
 @ExtendWith(MockitoExtension.class)
 class ScriptWriterImplTest {
@@ -36,8 +38,15 @@ class ScriptWriterImplTest {
 							.addOperation(
 									new SetNullOperationModel().setColumnName(COLUMN_NAME).setTableName(TABLE_NAME_2));
 			ByteArrayOutputStream out = new ByteArrayOutputStream(1000);
+			TableCleanerConfiguration tableCleanerConfiguration =
+					new TableCleanerConfiguration()
+							.setDeleteOperationPattern("DELETE FROM " + ScriptWriter.TABLE_NAME_PLACE_HOLDER + ";")
+							.setOutputStream(out)
+							.setSetNullOperationPattern(
+									"UPDATE " + ScriptWriter.TABLE_NAME_PLACE_HOLDER + " SET "
+											+ ScriptWriter.COLUMN_NAME_PLACE_HOLDER + " = NULL;");
 			// Run
-			unitUnderTest.createScript(scriptModel, out);
+			unitUnderTest.createScript(scriptModel, tableCleanerConfiguration);
 			// Check
 			assertEquals(
 					"DELETE FROM " + TABLE_NAME_1 + ";\nUPDATE " + TABLE_NAME_2 + " SET " + COLUMN_NAME + " = NULL;\n",

@@ -1,12 +1,15 @@
 package de.ollie.tablecleaner.core.service;
 
 import java.io.IOException;
-import java.io.OutputStream;
 
 import de.ollie.tablecleaner.core.model.ScriptModel;
+import de.ollie.tablecleaner.core.model.TableCleanerConfiguration;
 
 public interface ScriptWriter {
 
-	void createScript(ScriptModel scriptModel, OutputStream out) throws IOException;
+	public static final String COLUMN_NAME_PLACE_HOLDER = "${ColumnName}";
+	public static final String TABLE_NAME_PLACE_HOLDER = "${TableName}";
+
+	void createScript(ScriptModel scriptModel, TableCleanerConfiguration configuration) throws IOException;
 
 }

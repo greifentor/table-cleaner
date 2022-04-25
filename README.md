@@ -16,6 +16,21 @@ A the parameter ``--file=[filename]`` to the program call to define which file s
 Archimedes Data Model in XML format.
 
 
+### deleteOperationPattern
+
+Could be used to pass an alternative pattern for deletes (e. g. ``--deleteOperationPattern=deleteFrom("${TableName}")``).
+Default is ``DELETE FROM ${TableName};``. 
+The place holder ``${TableName}`` is substituted by a specific table name.
+
+
+### setNullOperationPattern
+
+Could be used to pass an alternative pattern for set null operations (e. g. ``--setNullOperationPattern=setNull("${TableName}", "${ColumnName}")``).
+Default is ``UPDATE ${TableName} SET ${ColumnName} = NULL;``.
+The place holder ``${TableName}`` is substituted by a specific table name.
+The place holder ``${ColumnName}`` is substituted by a specific column name.
+
+
 ## Table Model Option
 
 ### TABLE_CLEANER_IGNORE

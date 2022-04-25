@@ -1,10 +1,8 @@
 package de.ollie.tablecleaner.commands.createcleanscript;
 
-import java.io.OutputStream;
-
-import archimedes.model.DataModel;
 import de.ollie.tablecleaner.core.converter.DataModelToTableCleanerModelConverter;
 import de.ollie.tablecleaner.core.model.ScriptModel;
+import de.ollie.tablecleaner.core.model.TableCleanerConfiguration;
 import de.ollie.tablecleaner.core.model.TableCleanerModel;
 import de.ollie.tablecleaner.core.service.ScriptWriter;
 import de.ollie.tablecleaner.core.service.TableCleanerScriptGenerator;
@@ -13,9 +11,8 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class CleanScriptCreateCommand {
 
-	private final DataModel dataModel;
+	private final TableCleanerConfiguration tableCleanerConfiguration;
 	private final DataModelToTableCleanerModelConverter dataModelToTableCleanerModelConverter;
-	private final OutputStream out;
 	private final TableCleanerScriptGenerator tableCleanerScriptGenerator;
 	private final ScriptWriter scriptWriter;
 
@@ -29,7 +26,7 @@ public class CleanScriptCreateCommand {
 	}
 
 	private void convertDataModelToTableCleanerModel() {
-		tableCleanerModel = dataModelToTableCleanerModelConverter.convert(dataModel);
+		tableCleanerModel = dataModelToTableCleanerModelConverter.convert(tableCleanerConfiguration.getDataModel());
 	}
 
 	private void generateCleanScriptForTableCleanerModel() {
@@ -37,7 +34,7 @@ public class CleanScriptCreateCommand {
 	}
 
 	private void writeScript() throws Exception {
-		scriptWriter.createScript(scriptModel, out);
+		scriptWriter.createScript(scriptModel, tableCleanerConfiguration);
 	}
 
 }
