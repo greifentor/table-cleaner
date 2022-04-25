@@ -14,10 +14,13 @@ import de.ollie.tablecleaner.core.model.TableInfo;
 @Named
 public class DataModelToTableCleanerModelConverter {
 
+	public static final String TABLE_CLEANER_IGNORE = "TABLE_CLEANER_IGNORE";
+
 	public TableCleanerModel convert(DataModel dataModel) {
 		TableCleanerModel tableCleanerModel = new TableCleanerModel();
 		Stream
 				.of(dataModel.getTables())
+				.filter(table -> !table.isOptionSet(TABLE_CLEANER_IGNORE))
 				.forEach(table -> tableCleanerModel.addTableInfo(new TableInfo().setName(table.getName())));
 		streamOfAllColumnsReferencingTable(dataModel)
 				.forEach(
@@ -29,7 +32,19 @@ public class DataModelToTableCleanerModelConverter {
 	}
 
 	private Stream<ColumnModel> streamOfAllColumnsReferencingTable(DataModel dataModel) {
-		return List.of(dataModel.getAllColumns()).stream().filter(column -> column.getReferencedTable() != null);
+		return List
+				.of(dataModel.getAllColumns())
+				.stream()
+				.filter(column -> isAReference(column) && !isToIgnore(column));
+	}
+
+	private boolean isAReference(ColumnModel column) {
+		return column.getReferencedTable() != null;
+	}
+
+	private boolean isToIgnore(ColumnModel column) {
+		return column.getReferencedTable().isOptionSet(TABLE_CLEANER_IGNORE)
+				|| column.getTable().isOptionSet(TABLE_CLEANER_IGNORE);
 	}
 
 	private ColumnInfo columnModelToColumnInfo(ColumnModel column) {

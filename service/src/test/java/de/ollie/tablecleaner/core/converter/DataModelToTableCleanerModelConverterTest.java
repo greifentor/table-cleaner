@@ -1,8 +1,8 @@
 package de.ollie.tablecleaner.core.converter;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -48,7 +48,12 @@ class DataModelToTableCleanerModelConverterTest {
 			@Test
 			void containsAllTableFromDataModel() {
 				for (TableModel table : dataModel.getTables()) {
-					assertEquals(table.getName(), tableCleanerModel.getTableInfoByName(table.getName()).getName());
+					if (table.isOptionSet(DataModelToTableCleanerModelConverter.TABLE_CLEANER_IGNORE)) {
+						continue;
+					}
+					assertNotNull(
+							tableCleanerModel.getTableInfoByName(table.getName()),
+							"missing table: " + table.getName());
 				}
 			}
 
@@ -84,6 +89,24 @@ class DataModelToTableCleanerModelConverterTest {
 								.getTableInfoByName("A_TABLE")
 								.getReferencingColumnInfoByName("TABLE_NOT_NULLABLE_REF", "NOT_NULLABLE_REF")
 								.isNullable());
+			}
+
+			@Test
+			void doesNotContainTheTABLE_TO_IGNORE() {
+				assertNull(tableCleanerModel.getTableInfoByName("TABLE_TO_IGNORE"));
+			}
+
+			@Test
+			void doesNotContainTheTABLE_REF_TO_IGNORE() {
+				assertNull(tableCleanerModel.getTableInfoByName("TABLE_REF_TO_IGNORE"));
+			}
+
+			@Test
+			void doesNotReferenceToTableToIgnoreIsNotSetForATableInUse() {
+				assertNull(
+						tableCleanerModel
+								.getTableInfoByName("TABLE_NOT_NULLABLE_REF")
+								.getReferencingColumnInfoByName("TABLE_TO_IGNORE", "REF_TO_IGNORE"));
 			}
 
 		}
