@@ -3,8 +3,8 @@ A tool which is able to create scripts which are able to clean up database table
 
 ## Requirement
 
-* Java 11+
-* Maven 3.5.4+
+* Java 17
+* Maven 3.9.9
 * Archimedes 2.0.1+ (checked out and build locally - Take note of Archimedes readme file)
 
 
